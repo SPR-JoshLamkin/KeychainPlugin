@@ -28,4 +28,8 @@
 - (void) setForKey:(CDVInvokedUrlCommand*)command;
 - (void) removeForKey:(CDVInvokedUrlCommand*)command;
 
+- (void) getForKeyShared:(CDVInvokedUrlCommand*)command;
+- (void) setForKeyShared:(CDVInvokedUrlCommand*)command;
+- (void) removeForKeyShared:(CDVInvokedUrlCommand*)command;
+
 @end

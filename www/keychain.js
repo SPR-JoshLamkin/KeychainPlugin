@@ -40,4 +40,18 @@ Keychain.prototype.removeForKey = function(successCallback, failureCallback, key
 	exec(successCallback, failureCallback, this.serviceName, "removeForKey", [key, servicename]);
 }
 
+// Shared
+
+Keychain.prototype.getForKeyShared = function(successCallback, failureCallback, key, servicename, accessgroup) {
+	exec(successCallback, failureCallback, this.serviceName, "getForKeyShared", [key, servicename, accessgroup]);
+}
+
+Keychain.prototype.setForKeyShared = function(successCallback, failureCallback, key, servicename, accessgroup, value) {
+	exec(successCallback, failureCallback, this.serviceName, "setForKeyShared", [key, servicename, accessgroup, value]);
+}
+
+Keychain.prototype.removeForKeyShared = function(successCallback, failureCallback, key, servicename, accessgroup) {
+	exec(successCallback, failureCallback, this.serviceName, "removeForKeyShared", [key, servicename, accessgroup]);
+}
+
 module.exports = Keychain;

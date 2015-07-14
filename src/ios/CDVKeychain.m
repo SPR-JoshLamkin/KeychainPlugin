@@ -19,6 +19,7 @@
 
 #import "CDVKeychain.h"
 #import "SFHFKeychainUtils.h"
+#import "UICKeyChainStore.h"
 
 @implementation CDVKeychain
 
@@ -122,6 +123,100 @@
     }];
 }
 
+#pragma mark - Shared
+
+- (void) getForKeyShared:(CDVInvokedUrlCommand*)command
+{
+    [self.commandDelegate runInBackground:^{
+        NSArray* arguments = command.arguments;
+        CDVPluginResult* pluginResult = nil;
+        
+        if ([arguments count] >= 3)
+        {
+            NSString* key = [arguments objectAtIndex:0];
+            NSString* serviceName = [arguments objectAtIndex:1];
+            NSString* accessGroup = [arguments objectAtIndex:2];
+            NSError* error = nil;
+            
+            NSString* value = [UICKeyChainStore stringForKey:key service:serviceName accessGroup:accessGroup error:&error];
+            if (error == nil && value != nil) {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:value];
+            } else {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                                 messageAsString:[NSString stringWithFormat:@"error retrieving value for key '%@' : %@", key, [error localizedDescription]]];
+            }
+        }
+        else
+        {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                             messageAsString:@"incorrect number of arguments for getForKeyShared"];
+        }
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void) setForKeyShared:(CDVInvokedUrlCommand*)command
+{
+    [self.commandDelegate runInBackground:^{
+        NSArray* arguments = command.arguments;
+        CDVPluginResult* pluginResult = nil;
+        
+        if ([arguments count] >= 4)
+        {
+            NSString* key = [arguments objectAtIndex:0];
+            NSString* serviceName = [arguments objectAtIndex:1];
+            NSString* accessGroup = [arguments objectAtIndex:2];
+            NSString* value = [arguments objectAtIndex:3];
+            NSError* error = nil;
+            
+            BOOL stored = [UICKeyChainStore setString:value forKey:key service:serviceName accessGroup:accessGroup error:&error];
+            if (stored && error == nil) {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            } else {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
+            }
+        }
+        else
+        {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                             messageAsString:@"incorrect number of arguments for setForKeyShared"];
+        }
+
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void) removeForKeyShared:(CDVInvokedUrlCommand*)command
+{
+    [self.commandDelegate runInBackground:^{
+        NSArray* arguments = command.arguments;
+        CDVPluginResult* pluginResult = nil;
+        
+        if ([arguments count] >= 3)
+        {
+            NSString* key = [arguments objectAtIndex:0];
+            NSString* serviceName = [arguments objectAtIndex:1];
+            NSString* accessGroup = [arguments objectAtIndex:2];
+            NSError* error = nil;
+            
+            BOOL deleted = [UICKeyChainStore removeItemForKey:key service:serviceName accessGroup:accessGroup error:&error];
+            if (deleted && error == nil) {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            } else {
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
+            }
+        }
+        else
+        {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                             messageAsString:@"incorrect number of arguments for removeForKeyShared"];
+        }
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
 
 @end
 

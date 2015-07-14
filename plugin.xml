@@ -29,9 +29,11 @@
         
         <header-file src="src/ios/CDVKeychain.h" />
         <header-file src="src/ios/SFHFKeychainUtils/SFHFKeychainUtils.h"/>
+        <header-file src="src/ios/UICKeyChainStore/UICKeyChainStore.h"/>
         
         <source-file src="src/ios/CDVKeychain.m"/>
         <source-file src="src/ios/SFHFKeychainUtils/SFHFKeychainUtils.m" compiler-flags="-fobjc-arc" />
+        <source-file src="src/ios/UICKeyChainStore/UICKeyChainStore.m" compiler-flags="-fobjc-arc" />
         
         <framework src="Security.framework" />
         
