@@ -12,11 +12,11 @@
         <engine name="cordova" version=">=2.2.0" />
     </engines>
 	
-    <asset src="www/keychain.js" target="plugins/keychain.js" />
+    <asset src="www/keychain.js" target="js/keychain.js" />
 
-	<js-module src="www/keychain.js" name="Keychain">
-    	<clobbers target="window.Keychain" />
-	</js-module>
+  	<js-module src="www/keychain.js" name="Keychain">
+      	<clobbers target="window.Keychain" />
+  	</js-module>
 	
     <!-- ios -->
     <platform name="ios">
